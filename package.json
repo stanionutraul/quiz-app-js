@@ -1,0 +1,14 @@
+{
+  "name": "quiz-app",
+  "version": "1.0.0",
+  "description": "quiz app project",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Stan Ionut",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.16.1"
+  }
+}
