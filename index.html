@@ -1,14 +1,62 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuizMaster</title>
+    <link rel="stylesheet" href="./src/css/style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="logo">
+          <div class="logo-circle">🎯</div>
+          <span class="logo-text">QuizMaster</span>
+        </div>
+        <ul class="nav-items">
+          <li class="nav-item active"><span>Home</span></li>
+          <li class="nav-item"><span>Stats</span></li>
+          <li class="nav-item"><span>Settings</span></li>
+        </ul>
+      </div>
+    </nav>
 
-    </head>
-    <body>
-        <h1>Hello</h1>
+    <!-- Main Content -->
+    <main class="container">
+      <!-- Welcome Section -->
+      <section class="welcome fade-in-up">
+        <h1>Welcome to <span class="gradient-text">QuizMaster</span></h1>
+        <p>Choose a category, select difficulty, and test your knowledge! 🎯</p>
+      </section>
 
-    </body>
+      <!-- Category Selection -->
+      <section class="categories fade-in-up" style="animation-delay: 0.1s">
+        <h2>Select a Category</h2>
+        <div class="cards">
+          <div class="card gradient-primary">World Flags</div>
+          <div class="card gradient-success">Science</div>
+          <div class="card gradient-secondary">Movies & TV</div>
+          <div class="card bg-primary">Geography</div>
+          <div class="card bg-secondary">Music</div>
+          <div class="card bg-accent">Art & Culture</div>
+        </div>
+      </section>
+
+      <!-- Difficulty Selection -->
+      <section class="difficulty fade-in-up" style="animation-delay: 0.2s">
+        <h2>Select Difficulty</h2>
+        <div class="cards">
+          <div class="card bg-success">Easy - 20s per question</div>
+          <div class="card bg-primary">Medium - 15s per question</div>
+          <div class="card bg-destructive">Hard - 10s per question</div>
+        </div>
+      </section>
+
+      <!-- Start Quiz Button -->
+      <div class="start-button fade-in-up" style="animation-delay: 0.3s">
+        <button>Start Quiz</button>
+      </div>
+    </main>
+  </body>
 </html>
