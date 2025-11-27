@@ -33,66 +33,6 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-/* =========TITLE=============*/
-/* Stripe Text Effect for QuizaNostra */
-.stripe-text {
-  position: relative;
-  font-size: 40px; /* redus */
-  line-height: 1;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-family: "Catamaran", sans-serif;
-  font-style: italic;
-  color: transparent;
-}
-
-/* After pseudo for gradient stripes */
-.stripe-text::after {
-  position: absolute;
-  left: 0;
-  top: 0;
-  content: "QuizaNostra";
-  font-size: 40px; /* redus și aici */
-  line-height: 1;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-family: "Catamaran", sans-serif;
-  font-style: italic;
-  background: repeating-linear-gradient(
-    135deg,
-    #ff3cac 0px,
-    #ff3cac 8px,
-    #fcd000 8px,
-    #fcd000 16px,
-    #9b5de5 16px,
-    #9b5de5 24px,
-    #00f5d4 24px,
-    #00f5d4 32px
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-stroke-width: 2px; /* redus */
-  -webkit-text-stroke-color: white;
-}
-
-/* Before pseudo for layered shadow effect */
-.stripe-text::before {
-  content: "QuizaNostra";
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 40px; /* redus */
-  line-height: 1;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-family: "Catamaran", sans-serif;
-  font-style: italic;
-  color: #ff3cac;
-  z-index: -1;
-  text-shadow: 2px 0 #ff3cac, 3px 1px #ff3cac, 4px 2px #ff3cac, 5px 3px #ff3cac,
-    6px 4px #ff3cac, 7px 5px #ff3cac;
-}
 
 .brand {
   display: flex;
@@ -116,6 +56,64 @@ body {
   font-weight: bold;
   font-size: 20px;
   color: #6a11cb;
+}
+
+/* Stripe Text Effect for QuizaNostra */
+.stripe-text {
+  position: relative;
+  font-size: 40px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-family: "Catamaran", sans-serif;
+  font-style: italic;
+  color: transparent;
+}
+
+.stripe-text::after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: "QuizaNostra";
+  font-size: 40px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-family: "Catamaran", sans-serif;
+  font-style: italic;
+  background: repeating-linear-gradient(
+    135deg,
+    #ff3cac 0px,
+    #ff3cac 8px,
+    #fcd000 8px,
+    #fcd000 16px,
+    #9b5de5 16px,
+    #9b5de5 24px,
+    #00f5d4 24px,
+    #00f5d4 32px
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
+}
+
+.stripe-text::before {
+  content: "QuizaNostra";
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 40px;
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-family: "Catamaran", sans-serif;
+  font-style: italic;
+  color: #ff3cac;
+  z-index: -1;
+  text-shadow: 2px 0 #ff3cac, 3px 1px #ff3cac, 4px 2px #ff3cac, 5px 3px #ff3cac,
+    6px 4px #ff3cac, 7px 5px #ff3cac;
 }
 
 .nav-links {
@@ -150,9 +148,6 @@ body {
   padding: 2rem;
 }
 
-/* ===========================
-   WELCOME SECTION
-   =========================== */
 .welcome {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -168,27 +163,14 @@ body {
 }
 
 /* ===========================
-   SECTIONS
+   CARDS
    =========================== */
-.categories,
-.difficulty {
-  margin-bottom: 2.5rem;
-}
-
-.category,
-.difficulty-select {
-  margin-bottom: 1rem;
-}
-
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.2rem;
 }
 
-/* ===========================
-   CARD GENERAL DESIGN
-   =========================== */
 .card {
   display: flex;
   align-items: center;
@@ -207,7 +189,6 @@ body {
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
 }
 
-/* Category/difficulty layout */
 .card-icon {
   width: 62px;
   height: 62px;
@@ -284,42 +265,37 @@ body {
   background: rgba(255, 169, 62, 0.35);
 }
 
-.bg-success {
-  background: rgba(46, 201, 113, 0.22);
-}
-.bg-success .card-icon {
-  background: rgba(46, 201, 113, 0.35);
+/* ===========================
+   CATEGORY PERFORMANCE
+   =========================== */
+.category-performance {
+  margin-top: 2.5rem;
 }
 
-.bg-destructive {
-  background: rgba(255, 77, 90, 0.22);
+.category-performance h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #6a11cb;
 }
-.bg-destructive .card-icon {
-  background: rgba(255, 77, 90, 0.35);
+
+.category-performance p {
+  font-size: 14px;
+  color: #333;
 }
 
 /* ===========================
-   START BUTTON
+   RECENT QUIZZES
    =========================== */
-.start-button {
-  text-align: center;
-  margin-top: 2rem;
+.recent-quizzes {
+  margin-top: 2.5rem;
 }
 
-button {
-  padding: 1rem 2.2rem;
-  font-size: 1.15rem;
-  border: none;
-  border-radius: 14px;
-  background: #6a11cb;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: #7e2eff;
-  transform: translateY(-2px);
+.recent-quizzes h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #6a11cb;
 }
 
 /* ===========================

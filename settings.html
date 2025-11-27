@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - QuizaNostra</title>
+    <link rel="stylesheet" href="./src/css/settings.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <div class="brand">
+          <span class="stripe-text">QuizaNostra</span>
+        </div>
+        <ul class="nav-links">
+          <li class="nav-link">Home</li>
+          <li class="nav-link">Stats</li>
+          <li class="nav-link active">Settings</li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="container">
+      <div class="text-center">
+        <h2 class="settings-title">Settings</h2>
+        <p class="text-muted-foreground">Manage your quiz preferences ⚙️</p>
+      </div>
+
+      <div class="settings-cards">
+        <!-- Data Management Card -->
+        <div class="card">
+          <div class="card-info">
+            <h2>Data Management</h2>
+
+            <div class="flex-between">
+              <div>
+                <h3>Export Quiz History</h3>
+                <p>Download your quiz data as JSON</p>
+              </div>
+              <button class="btn-export">Export</button>
+            </div>
+
+            <div class="flex-between">
+              <div>
+                <h3>Clear History</h3>
+                <p>Remove all quiz history and scores</p>
+              </div>
+              <button class="btn-clear">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -6,18 +6,19 @@
     <title>QuizMaster</title>
     <link rel="stylesheet" href="./src/css/style.css" />
   </head>
+
   <body>
-    <!-- Navbar -->
+    <!-- NAVBAR -->
     <nav class="navbar">
-      <div class="navbar-container">
-        <div class="logo">
-          <div class="logo-circle">🎯</div>
-          <span class="logo-text">QuizMaster</span>
+      <div class="navbar-inner">
+        <div class="brand">
+          <div class="stripe-text">QuizaNostra</div>
         </div>
-        <ul class="nav-items">
-          <li class="nav-item active"><span>Home</span></li>
-          <li class="nav-item"><span>Stats</span></li>
-          <li class="nav-item"><span>Settings</span></li>
+
+        <ul class="nav-links">
+          <li class="nav-link"><a href="index.html">Home</a></li>
+          <li class="nav-link"><a href="stats.html">Stats</a></li>
+          <li class="nav-link"><a href="settings.html">Settings</a></li>
         </ul>
       </div>
     </nav>
@@ -26,30 +27,97 @@
     <main class="container">
       <!-- Welcome Section -->
       <section class="welcome fade-in-up">
-        <h1>Welcome to <span class="gradient-text">QuizMaster</span></h1>
+        <h1>Welcome to <span class="gradient-text">QuizaNostra</span></h1>
         <p>Choose a category, select difficulty, and test your knowledge! 🎯</p>
       </section>
 
       <!-- Category Selection -->
       <section class="categories fade-in-up" style="animation-delay: 0.1s">
-        <h2>Select a Category</h2>
+        <div class="category">
+          <h2>Select a Category</h2>
+        </div>
+
         <div class="cards">
-          <div class="card gradient-primary">World Flags</div>
-          <div class="card gradient-success">Science</div>
-          <div class="card gradient-secondary">Movies & TV</div>
-          <div class="card bg-primary">Geography</div>
-          <div class="card bg-secondary">Music</div>
-          <div class="card bg-accent">Art & Culture</div>
+          <div class="card category-card gradient-primary">
+            <div class="card-icon">🏳️</div>
+            <div class="card-info">
+              <h3>World Flags</h3>
+              <p>120 questions</p>
+            </div>
+          </div>
+
+          <div class="card category-card gradient-success">
+            <div class="card-icon">🔬</div>
+            <div class="card-info">
+              <h3>Science</h3>
+              <p>85 questions</p>
+            </div>
+          </div>
+
+          <div class="card category-card gradient-secondary">
+            <div class="card-icon">🎬</div>
+            <div class="card-info">
+              <h3>Movies & TV</h3>
+              <p>100 questions</p>
+            </div>
+          </div>
+
+          <div class="card category-card bg-primary">
+            <div class="card-icon">🌍</div>
+            <div class="card-info">
+              <h3>Geography</h3>
+              <p>90 questions</p>
+            </div>
+          </div>
+
+          <div class="card category-card bg-secondary">
+            <div class="card-icon">🎵</div>
+            <div class="card-info">
+              <h3>Music</h3>
+              <p>70 questions</p>
+            </div>
+          </div>
+
+          <div class="card category-card bg-accent">
+            <div class="card-icon">🎨</div>
+            <div class="card-info">
+              <h3>Art & Culture</h3>
+              <p>60 questions</p>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- Difficulty Selection -->
       <section class="difficulty fade-in-up" style="animation-delay: 0.2s">
-        <h2>Select Difficulty</h2>
+        <div class="difficulty-select">
+          <h2>Select Difficulty</h2>
+        </div>
+
         <div class="cards">
-          <div class="card bg-success">Easy - 20s per question</div>
-          <div class="card bg-primary">Medium - 15s per question</div>
-          <div class="card bg-destructive">Hard - 10s per question</div>
+          <div class="card difficulty-card bg-success">
+            <div class="card-icon small">🙂</div>
+            <div class="card-info">
+              <h3>Easy</h3>
+              <p>20s per question</p>
+            </div>
+          </div>
+
+          <div class="card difficulty-card bg-primary">
+            <div class="card-icon small">😐</div>
+            <div class="card-info">
+              <h3>Medium</h3>
+              <p>15s per question</p>
+            </div>
+          </div>
+
+          <div class="card difficulty-card bg-destructive">
+            <div class="card-icon small">😰</div>
+            <div class="card-info">
+              <h3>Hard</h3>
+              <p>10s per question</p>
+            </div>
+          </div>
         </div>
       </section>
 

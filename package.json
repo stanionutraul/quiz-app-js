@@ -9,6 +9,7 @@
   "author": "Stan Ionut",
   "license": "ISC",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.1",
     "parcel": "^2.16.1"
   }
 }
