@@ -1,5 +1,10 @@
-import { API_CATEGORIES, API_QUIZ, RES_PER_PAGE } from "./config";
-import { AJAX } from "./helper";
+import {
+  API_QUIZ_CATEGORIES,
+  API_QUIZ_QUESTIONS,
+  DEFAULT_AMOUNT,
+  RES_PER_PAGE,
+} from "./config.js";
+import { AJAX } from "./helper.js";
 
 export const state = {
   quiz: {},
@@ -28,9 +33,9 @@ const createQuizObject = function (data) {
 
 export const loadCategories = async function () {
   try {
-    const data = await AJAX(API_CATEGORIES);
+    const data = await AJAX(API_QUIZ_CATEGORIES);
     state.search.results = data.trivia_categories.map((cat) => ({
-      id: CDATASection.id,
+      id: cat.id,
       name: cat.name,
     }));
   } catch (err) {
@@ -55,7 +60,7 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
       questions: data.results,
     });
   } catch (err) {
-    console.log(`${err}`);
+    console.log(err);
     throw err;
   }
 };
