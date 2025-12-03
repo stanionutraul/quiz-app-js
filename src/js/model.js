@@ -53,11 +53,28 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
 
     const data = await AJAX(url);
 
+    // transformăm fiecare întrebare în formatul necesar UI-ului
+    const formattedQuestions = data.results.map((q) => {
+      const options = [...q.incorrect_answers, q.correct_answer];
+
+      // amestecăm opțiunile
+      const shuffled = options
+        .map((v) => ({ v, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map((obj) => obj.v);
+
+      return {
+        question: q.question,
+        options: shuffled,
+        correctAnswer: shuffled.indexOf(q.correct_answer),
+      };
+    });
+
     state.quiz = createQuizObject({
       id: `${categoryId}-${difficulty}-${Date.now()}`,
       category: categoryId,
       difficulty,
-      questions: data.results,
+      questions: formattedQuestions,
     });
   } catch (err) {
     console.log(err);

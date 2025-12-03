@@ -6,6 +6,7 @@
     <title>QuizMaster</title>
     <link rel="stylesheet" href="./src/css/style.css" />
     <link rel="stylesheet" href="./src/css/style.css" />
+    <script type="module" src="src/js/controller.js"></script>
     <!-- <link rel="stylesheet" href="./src/css/results.css" /> -->
   </head>
 
@@ -40,7 +41,7 @@
         </div>
 
         <div class="cards">
-          <div class="card category-card gradient-primary">
+          <div class="card category-card gradient-primary" data-category-id="9">
             <div class="card-icon">🏳️</div>
             <div class="card-info">
               <h3>World Flags</h3>
@@ -48,7 +49,10 @@
             </div>
           </div>
 
-          <div class="card category-card gradient-success">
+          <div
+            class="card category-card gradient-success"
+            data-category-id="17"
+          >
             <div class="card-icon">🔬</div>
             <div class="card-info">
               <h3>Science</h3>
@@ -56,7 +60,10 @@
             </div>
           </div>
 
-          <div class="card category-card gradient-secondary">
+          <div
+            class="card category-card gradient-secondary"
+            data-category-id="11"
+          >
             <div class="card-icon">🎬</div>
             <div class="card-info">
               <h3>Movies & TV</h3>
@@ -64,7 +71,7 @@
             </div>
           </div>
 
-          <div class="card category-card bg-primary">
+          <div class="card category-card bg-primary" data-category-id="22">
             <div class="card-icon">🌍</div>
             <div class="card-info">
               <h3>Geography</h3>
@@ -72,7 +79,7 @@
             </div>
           </div>
 
-          <div class="card category-card bg-secondary">
+          <div class="card category-card bg-secondary" data-category-id="12">
             <div class="card-icon">🎵</div>
             <div class="card-info">
               <h3>Music</h3>
@@ -80,7 +87,7 @@
             </div>
           </div>
 
-          <div class="card category-card bg-accent">
+          <div class="card category-card bg-accent" data-category-id="25">
             <div class="card-icon">🎨</div>
             <div class="card-info">
               <h3>Art & Culture</h3>
@@ -97,7 +104,7 @@
         </div>
 
         <div class="cards">
-          <div class="card difficulty-card bg-success">
+          <div class="card difficulty-card bg-success" data-diff="easy">
             <div class="card-icon small">🙂</div>
             <div class="card-info">
               <h3>Easy</h3>
@@ -105,7 +112,7 @@
             </div>
           </div>
 
-          <div class="card difficulty-card bg-primary">
+          <div class="card difficulty-card bg-primary" data-diff="medium">
             <div class="card-icon small">😐</div>
             <div class="card-info">
               <h3>Medium</h3>
@@ -113,7 +120,7 @@
             </div>
           </div>
 
-          <div class="card difficulty-card bg-destructive">
+          <div class="card difficulty-card bg-destructive" data-diff="hard">
             <div class="card-icon small">😰</div>
             <div class="card-info">
               <h3>Hard</h3>
