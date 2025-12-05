@@ -1,95 +1,99 @@
 import View from "./View.js";
 
 class ResultsView extends View {
-  _parentElement = document.querySelector(".app");
+  _parentElement = document.querySelector(".container");
 
   render(data) {
     this._data = data;
     const markup = this._generateMarkup();
     this._clear();
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
+
+    // Adaugă handler pentru butoane
+    this._parentElement
+      .querySelector(".btn-retry")
+      .addEventListener("click", () => {
+        if (this._handlerRetry) this._handlerRetry();
+      });
+
+    this._parentElement
+      .querySelector(".btn-home")
+      .addEventListener("click", () => {
+        if (this._handlerHome) this._handlerHome();
+      });
   }
 
   _generateMarkup() {
     const d = this._data;
+    const successRate = Math.round((d.correctAnswers / d.totalQuestions) * 100);
 
     return `
       <section class="results fade-in-up">
-        <h1>🎉 Rezultatele tale</h1>
-        <p>Categoria: <strong>${d.category}</strong></p>
+        <div class="results-card">
+          <h2 class="results-title">Quiz Completed! 🎉</h2>
+          <p class="results-category">Category: <strong>${
+            d.category
+          }</strong></p>
 
-        <div class="cards">
-          <div class="card gradient-primary fade-in-up">
-            <div class="card-icon">🏆</div>
-            <div class="card-info">
-              <h3>Punctaj</h3>
-              <p>${d.score}</p>
+          <div class="results-stats">
+            <div class="stat gradient-primary">
+              <div class="stat-icon">🏆</div>
+              <div class="stat-info">
+                <h3>Total Score</h3>
+                <p>${d.score}</p>
+              </div>
+            </div>
+
+            <div class="stat gradient-success">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-info">
+                <h3>Correct</h3>
+                <p>${d.correctAnswers}</p>
+              </div>
+            </div>
+
+            <div class="stat gradient-warning">
+              <div class="stat-icon">❌</div>
+              <div class="stat-info">
+                <h3>Incorrect</h3>
+                <p>${d.incorrectAnswers}</p>
+              </div>
+            </div>
+
+            <div class="stat gradient-accent">
+              <div class="stat-icon">⏱️</div>
+              <div class="stat-info">
+                <h3>Average Time</h3>
+                <p>${d.averageTime}s</p>
+              </div>
             </div>
           </div>
 
-          <div class="card gradient-success fade-in-up">
-            <div class="card-icon">🎯</div>
-            <div class="card-info">
-              <h3>Corecte</h3>
-              <p>${d.correctAnswers}</p>
-            </div>
-          </div>
-
-          <div class="card gradient-secondary fade-in-up">
-            <div class="card-icon">👍</div>
-            <div class="card-info">
-              <h3>Greșite</h3>
-              <p>${d.incorrectAnswers}</p>
-            </div>
-          </div>
-
-          <div class="card bg-accent fade-in-up">
-            <div class="card-icon">💪</div>
-            <div class="card-info">
-              <h3>Scor maxim</h3>
-              <p>${d.highScore}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="glass-card fade-in-up">
-          <h2>Rezumat</h2>
-          <p>
-            Ai răspuns corect la 
-            <span class="text-success">${d.correctAnswers}</span> întrebări și 
-            greșit la 
-            <span class="text-destructive">${d.incorrectAnswers}</span>.
+          <p class="results-message">
+            ${
+              successRate >= 80
+                ? "Excellent! 🏆"
+                : successRate >= 50
+                ? "Good effort! 👍"
+                : "Keep practicing! 💪"
+            }
           </p>
 
-          <p>Ți-a luat în medie <strong>${d.averageTime}s</strong> per întrebare.</p>
-
-          <p>
-            Ai răspuns la <strong>${d.totalQuestions}</strong> întrebări în total.
-          </p>
-        </div>
-
-        <div class="results-buttons fade-in-up">
-          <button class="btn restart">Reîncepe quizul</button>
-          <button class="btn outline view-history">Vezi istoricul</button>
+          <div class="results-buttons">
+            <button class="btn btn-retry">Try Again</button>
+            <button class="btn btn-home">Back to Home</button>
+          </div>
         </div>
       </section>
     `;
   }
 
-  addHandlerRestart(handler) {
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".restart");
-      if (!btn) return;
-      handler();
-    });
+  addHandlerRetry(handler) {
+    this._handlerRetry = handler;
   }
 
-  addHandlerViewHistory(handler) {
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".view-history");
-      if (!btn) return;
-      handler();
-    });
+  addHandlerHome(handler) {
+    this._handlerHome = handler;
   }
 }
 

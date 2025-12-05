@@ -1,4 +1,5 @@
 import View from "./View.js";
+import ResultsView from "./resultsView.js";
 import icons from "url:../../img/icons.svg";
 
 class QuizView extends View {
@@ -48,11 +49,9 @@ class QuizView extends View {
         </div>
 
         <div class="quiz-timer">
-          <svg>
-            <use href="${icons}#icon-loader"></use>
-          </svg>
-          <span class="timer">${this._timerDuration}</span>s
-        </div>
+  <span class="timer">${this._timerDuration}</span>
+  <div class="timer-bar"><div class="timer-fill"></div></div>
+</div>
 
         <div class="question-card">
           <h2 class="question">${questionObj.question}</h2>
@@ -91,6 +90,11 @@ class QuizView extends View {
     this._timerInterval = setInterval(() => {
       timeLeft--;
       timerEl.textContent = timeLeft;
+
+      /* 🔥 ADD THIS: TIMER COLOR STATES */
+      timerEl.classList.toggle("warn", timeLeft <= 5 && timeLeft > 2);
+      timerEl.classList.toggle("danger", timeLeft <= 2);
+
       if (timeLeft <= 0) {
         clearInterval(this._timerInterval);
         this._handleAnswer(false);
@@ -100,6 +104,7 @@ class QuizView extends View {
 
   _handleAnswer(isCorrect) {
     clearInterval(this._timerInterval);
+
     const timeSpent =
       this._timerDuration -
       parseInt(this._parentElement.querySelector(".timer").textContent);
@@ -134,18 +139,23 @@ class QuizView extends View {
         this._currentQuestionIndex++;
         this._renderQuestion();
       } else {
-        if (this._handlerEndQuiz) {
-          this._handlerEndQuiz({
-            score: this._score,
-            correctAnswers: this._correctAnswers,
-            incorrectAnswers: this._incorrectAnswers,
-            totalQuestions: this._data.questions.length,
-            averageTime: Math.floor(
-              this._totalTime / this._data.questions.length
-            ),
-            category: this._data.category,
-          });
-        }
+        // 🔥 Aici apelăm ResultsView
+        ResultsView.render({
+          score: this._score,
+          correctAnswers: this._correctAnswers,
+          incorrectAnswers: this._incorrectAnswers,
+          totalQuestions: this._data.questions.length,
+          averageTime: Math.floor(
+            this._totalTime / this._data.questions.length
+          ),
+          category: this._data.category,
+        });
+
+        // Poți adăuga handler pentru Retry/Home
+        ResultsView.addHandlerRetry(() => this.render(this._data));
+        ResultsView.addHandlerHome(() => {
+          window.location.href = "/"; // sau navigare către pagina principală
+        });
       }
     }, 1000);
   }
