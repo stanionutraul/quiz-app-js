@@ -8,7 +8,6 @@ import { AJAX } from "./helper.js";
 
 export const state = {
   quiz: {},
-
   search: {
     query: "",
     categoryId: "",
@@ -17,8 +16,14 @@ export const state = {
     resultsPerPage: RES_PER_PAGE,
     page: 1,
   },
-
   history: [],
+  stats: {
+    totalQuizzes: 0,
+    totalScore: 0,
+    totalCorrect: 0,
+    totalIncorrect: 0,
+    totalTime: 0,
+  },
 };
 
 const createQuizObject = function (data) {
@@ -53,11 +58,8 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
 
     const data = await AJAX(url);
 
-    // transformăm fiecare întrebare în formatul necesar UI-ului
     const formattedQuestions = data.results.map((q) => {
       const options = [...q.incorrect_answers, q.correct_answer];
-
-      // amestecăm opțiunile
       const shuffled = options
         .map((v) => ({ v, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
@@ -82,8 +84,10 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
   }
 };
 
-export const saveHistory = function () {
+// 🔥 salvare rezultate quiz + update stats
+export const saveQuizResult = function (results) {
   if (!state.quiz.id) return;
+
   const entry = {
     id: state.quiz.id,
     title: state.quiz.title,
@@ -91,26 +95,59 @@ export const saveHistory = function () {
     difficulty: state.quiz.difficulty,
     questions: state.quiz.questions,
     date: new Date().toISOString(),
-    score: state.quiz.score || 0,
+    score: results.score,
+    correctAnswers: results.correctAnswers,
+    incorrectAnswers: results.incorrectAnswers,
+    totalQuestions: results.totalQuestions,
+    averageTime: results.averageTime,
   };
+
   state.history.push(entry);
+
+  // update stats aggregate
+  state.stats.totalQuizzes++;
+  state.stats.totalScore += results.score;
+  state.stats.totalCorrect += results.correctAnswers;
+  state.stats.totalIncorrect += results.incorrectAnswers;
+  state.stats.totalTime += results.totalTime || 0;
+
   saveToStorage();
 };
 
+// summary pentru dashboard
 export const getSummary = function () {
   return {
-    totalQuizzes: state.history.length,
+    totalQuizzes: state.stats.totalQuizzes,
+    totalScore: state.stats.totalScore,
+    totalCorrect: state.stats.totalCorrect,
+    totalIncorrect: state.stats.totalIncorrect,
+    averageAccuracy:
+      state.stats.totalQuizzes > 0
+        ? Math.round(
+            (state.stats.totalCorrect /
+              (state.stats.totalCorrect + state.stats.totalIncorrect)) *
+              100
+          )
+        : 0,
+    averageScore:
+      state.stats.totalQuizzes > 0
+        ? Math.round(state.stats.totalScore / state.stats.totalQuizzes)
+        : 0,
   };
 };
 
 const saveToStorage = function () {
-  localStorage.setItem("quizData", JSON.stringify({ history: state.history }));
+  localStorage.setItem(
+    "quizData",
+    JSON.stringify({ history: state.history, stats: state.stats })
+  );
 };
 
 const loadFromStorage = function () {
   const data = JSON.parse(localStorage.getItem("quizData"));
   if (!data) return;
   state.history = data.history || [];
+  state.stats = data.stats || state.stats;
 };
 
 loadFromStorage();

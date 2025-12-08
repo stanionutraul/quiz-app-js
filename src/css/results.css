@@ -1,9 +1,9 @@
 /* ================================
    RESULTS PAGE STYLING — FUN & PLAYFUL
+   *ISOLATED — DOES NOT AFFECT HOMEPAGE*
 ================================ */
 
-/* Fade animation */
-.fade-in-up {
+.results .fade-in-up {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s ease forwards;
@@ -24,7 +24,7 @@
 }
 
 /* Results Card */
-.results-card {
+.results .results-card {
   background: #fcfcfe;
   border-radius: 24px;
   padding: 2rem;
@@ -33,29 +33,29 @@
 }
 
 /* Headings */
-.results-title {
+.results .results-title {
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
   color: #1e3a8a;
 }
 
-.results-category {
+.results .results-category {
   font-size: 1rem;
   margin-bottom: 2rem;
   color: #2563eb;
 }
 
 /* Stats grid */
-.results-stats {
+.results .results-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
-/* Stat cards */
-.stat {
+/* Stat card */
+.results .stat {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -67,45 +67,45 @@
   transition: transform 0.3s ease;
 }
 
-.stat:hover {
+.results .stat:hover {
   transform: translateY(-4px);
 }
 
 /* Icons */
-.stat-icon {
+.results .stat-icon {
   font-size: 2rem;
 }
 
 /* Info inside stat */
-.stat-info h3 {
+.results .stat-info h3 {
   font-size: 0.9rem;
   opacity: 0.9;
 }
 
-.stat-info p {
+.results .stat-info p {
   font-size: 1.3rem;
   font-weight: bold;
 }
 
-/* Gradient backgrounds */
-.gradient-primary {
+/* Gradient backgrounds – PREFIXED so they DO NOT affect homepage */
+.results .gradient-primary {
   background: linear-gradient(135deg, #3b82f6, #60a5fa);
 }
 
-.gradient-success {
+.results .gradient-success {
   background: linear-gradient(135deg, #10b981, #34d399);
 }
 
-.gradient-warning {
+.results .gradient-warning {
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
 }
 
-.gradient-accent {
+.results .gradient-accent {
   background: linear-gradient(135deg, #8b5cf6, #a78bfa);
 }
 
 /* Results message */
-.results-message {
+.results .results-message {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 2rem;
@@ -113,14 +113,14 @@
 }
 
 /* Buttons */
-.results-buttons {
+.results .results-buttons {
   display: flex;
   justify-content: center;
   gap: 15px;
   flex-wrap: wrap;
 }
 
-.btn {
+.results .btn {
   padding: 12px 24px;
   font-size: 1rem;
   font-weight: 600;
@@ -130,22 +130,22 @@
   transition: all 0.25s ease;
 }
 
-.btn-retry {
+.results .btn-retry {
   background: linear-gradient(135deg, #3b82f6, #60a5fa);
   color: #fff;
 }
 
-.btn-retry:hover {
+.results .btn-retry:hover {
   transform: translateY(-3px);
   opacity: 0.9;
 }
 
-.btn-home {
+.results .btn-home {
   background: #e5e7eb;
   color: #374151;
 }
 
-.btn-home:hover {
+.results .btn-home:hover {
   background: #d1d5db;
   transform: translateY(-3px);
 }
@@ -156,11 +156,11 @@
     padding: 25px 15px;
   }
 
-  .results-stats {
+  .results .results-stats {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 
-  .btn {
+  .results .btn {
     width: 100%;
     text-align: center;
   }
