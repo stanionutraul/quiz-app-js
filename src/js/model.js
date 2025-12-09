@@ -1,3 +1,4 @@
+// model.js
 import {
   API_QUIZ_CATEGORIES,
   API_QUIZ_QUESTIONS,
@@ -12,7 +13,7 @@ export const state = {
     query: "",
     categoryId: "",
     difficulty: "",
-    results: [],
+    results: [], // {id, name}
     resultsPerPage: RES_PER_PAGE,
     page: 1,
   },
@@ -72,9 +73,16 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
       };
     });
 
+    // find category name if we have categories loaded
+    const catObj = state.search.results.find(
+      (c) => String(c.id) === String(categoryId)
+    );
+    const categoryName = catObj ? catObj.name : categoryId;
+
     state.quiz = createQuizObject({
       id: `${categoryId}-${difficulty}-${Date.now()}`,
-      category: categoryId,
+      category: categoryId, // still store id for reference
+      categoryName, // store friendly name
       difficulty,
       questions: formattedQuestions,
     });
@@ -84,14 +92,16 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
   }
 };
 
-// 🔥 salvare rezultate quiz + update stats
+// 🔥 salvare rezultate quiz + update stats (folosește categoryName când e disponibil)
 export const saveQuizResult = function (results) {
-  if (!state.quiz.id) return;
+  // results = { score, correctAnswers, incorrectAnswers, totalQuestions, averageTime, totalTime, category }
+  if (!state.quiz || !state.quiz.id) return;
 
   const entry = {
     id: state.quiz.id,
     title: state.quiz.title,
-    category: state.quiz.category,
+    categoryId: state.quiz.category,
+    category: state.quiz.categoryName || state.quiz.category, // friendly name
     difficulty: state.quiz.difficulty,
     questions: state.quiz.questions,
     date: new Date().toISOString(),
@@ -100,16 +110,18 @@ export const saveQuizResult = function (results) {
     incorrectAnswers: results.incorrectAnswers,
     totalQuestions: results.totalQuestions,
     averageTime: results.averageTime,
+    totalTime:
+      results.totalTime || results.averageTime * results.totalQuestions,
   };
 
+  // push history and update aggregates
   state.history.push(entry);
 
-  // update stats aggregate
   state.stats.totalQuizzes++;
-  state.stats.totalScore += results.score;
-  state.stats.totalCorrect += results.correctAnswers;
-  state.stats.totalIncorrect += results.incorrectAnswers;
-  state.stats.totalTime += results.totalTime || 0;
+  state.stats.totalScore += entry.score;
+  state.stats.totalCorrect += entry.correctAnswers;
+  state.stats.totalIncorrect += entry.incorrectAnswers;
+  state.stats.totalTime += entry.totalTime || 0;
 
   saveToStorage();
 };
@@ -144,10 +156,14 @@ const saveToStorage = function () {
 };
 
 const loadFromStorage = function () {
-  const data = JSON.parse(localStorage.getItem("quizData"));
-  if (!data) return;
-  state.history = data.history || [];
-  state.stats = data.stats || state.stats;
+  try {
+    const data = JSON.parse(localStorage.getItem("quizData"));
+    if (!data) return;
+    state.history = data.history || [];
+    state.stats = data.stats || state.stats;
+  } catch (err) {
+    // invalid json or nothing — ignore
+  }
 };
 
 loadFromStorage();

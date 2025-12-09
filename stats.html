@@ -4,108 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QuizaNostra - Stats</title>
+
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <link rel="stylesheet" href="./src/css/quiz.css" />
+    <link rel="stylesheet" href="./src/css/results.css" />
+
+    <!-- PAGE SPECIFIC -->
     <link rel="stylesheet" href="./src/css/stats.css" />
+
     <script type="module" src="./src/js/controller.js"></script>
   </head>
+
   <body data-page="stats">
     <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-inner">
         <div class="brand">
-          <span class="brand-text stripe-text">QuizaNostra</span>
+          <div class="stripe-text">QuizaNostra</div>
         </div>
-
         <ul class="nav-links">
           <li class="nav-link"><a href="index.html">Home</a></li>
-          <li class="nav-link active">Stats</li>
+          <li class="nav-link active"><a href="stats.html">Stats</a></li>
           <li class="nav-link"><a href="settings.html">Settings</a></li>
         </ul>
       </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Main Container -->
     <main class="container">
-      <!-- Welcome Section -->
-      <section class="welcome fade-in-up">
-        <h1>Your <span class="gradient-text">Stats Dashboard</span></h1>
-        <p>Track your progress and achievements 📊</p>
-      </section>
-
-      <!-- Stats Cards -->
-      <section class="stats-cards fade-in-up">
-        <div class="cards">
-          <div class="card gradient-primary">
-            <div class="card-icon">🏆</div>
-            <div class="card-info">
-              <h3>Total Quizzes</h3>
-              <p>0</p>
-            </div>
-          </div>
-          <div class="card gradient-success">
-            <div class="card-icon">🎯</div>
-            <div class="card-info">
-              <h3>Average Accuracy</h3>
-              <p>0%</p>
-            </div>
-          </div>
-          <div class="card gradient-secondary">
-            <div class="card-icon">🏅</div>
-            <div class="card-info">
-              <h3>Total Score</h3>
-              <p>0</p>
-            </div>
-          </div>
-          <div class="card bg-accent">
-            <div class="card-icon">🥇</div>
-            <div class="card-info">
-              <h3>High Score</h3>
-              <p>0</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Category Performance -->
-      <section class="category-performance fade-in-up">
-        <h2>Category Performance</h2>
-        <div class="cards">
-          <div class="card bg-primary">
-            <div class="card-icon small">🧪</div>
-            <div class="card-info">
-              <h3>Science</h3>
-              <p>60% accuracy</p>
-            </div>
-          </div>
-          <div class="card bg-secondary">
-            <div class="card-icon small">🎬</div>
-            <div class="card-info">
-              <h3>Movies</h3>
-              <p>40% accuracy</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Recent Quizzes -->
-      <section class="recent-quizzes fade-in-up">
-        <h2>Recent Quizzes</h2>
-        <div class="cards">
-          <div class="card bg-primary">
-            <div class="card-icon small">🏆</div>
-            <div class="card-info">
-              <h3>Science</h3>
-              <p>8 points - 80% accuracy</p>
-            </div>
-          </div>
-          <div class="card bg-secondary">
-            <div class="card-icon small">🎯</div>
-            <div class="card-info">
-              <h3>Movies</h3>
-              <p>5 points - 50% accuracy</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- Stats content will be generated dynamically via JS -->
     </main>
   </body>
 </html>

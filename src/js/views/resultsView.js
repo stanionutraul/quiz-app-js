@@ -1,3 +1,4 @@
+// resultsView.js
 import View from "./View.js";
 
 class ResultsView extends View {
@@ -8,32 +9,23 @@ class ResultsView extends View {
     const markup = this._generateMarkup();
     this._clear();
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
-
-    // Adaugă handler pentru butoane
-    this._parentElement
-      .querySelector(".btn-retry")
-      .addEventListener("click", () => {
-        if (this._handlerRetry) this._handlerRetry();
-      });
-
-    this._parentElement
-      .querySelector(".btn-home")
-      .addEventListener("click", () => {
-        if (this._handlerHome) this._handlerHome();
-      });
   }
 
   _generateMarkup() {
     const d = this._data;
     const successRate = Math.round((d.correctAnswers / d.totalQuestions) * 100);
+    const message =
+      successRate >= 80
+        ? "Excellent! 🏆"
+        : successRate >= 50
+        ? "Good effort! 👍"
+        : "Keep practicing! 💪";
 
     return `
       <section class="results fade-in-up">
         <div class="results-card">
           <h2 class="results-title">Quiz Completed! 🎉</h2>
-          <p class="results-category">Category: <strong>${
-            d.category
-          }</strong></p>
+          <p class="results-category">Category: <strong>${d.category}</strong></p>
 
           <div class="results-stats">
             <div class="stat gradient-primary">
@@ -63,25 +55,18 @@ class ResultsView extends View {
             <div class="stat gradient-accent">
               <div class="stat-icon">⏱️</div>
               <div class="stat-info">
-                <h3>Average Time</h3>
+                <h3>Avg. Time</h3>
                 <p>${d.averageTime}s</p>
               </div>
             </div>
           </div>
 
-          <p class="results-message">
-            ${
-              successRate >= 80
-                ? "Excellent! 🏆"
-                : successRate >= 50
-                ? "Good effort! 👍"
-                : "Keep practicing! 💪"
-            }
-          </p>
+          <p class="results-message">${message}</p>
 
           <div class="results-buttons">
             <button class="btn btn-retry">Try Again</button>
             <button class="btn btn-home">Back to Home</button>
+            <button class="btn btn-outline view-stats">View Stats</button>
           </div>
         </div>
       </section>
@@ -89,11 +74,27 @@ class ResultsView extends View {
   }
 
   addHandlerRetry(handler) {
-    this._handlerRetry = handler;
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".btn-retry");
+      if (!btn) return;
+      handler();
+    });
   }
 
   addHandlerHome(handler) {
-    this._handlerHome = handler;
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".btn-home");
+      if (!btn) return;
+      handler();
+    });
+  }
+
+  addHandlerViewStats(handler) {
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".view-stats");
+      if (!btn) return;
+      handler();
+    });
   }
 }
 
