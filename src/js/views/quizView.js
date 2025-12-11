@@ -79,9 +79,7 @@ class QuizView extends View {
     this._clear();
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
 
-    // store reference to timer-fill for animation
     this._timerFillEl = this._parentElement.querySelector(".timer-fill");
-
     this._startTimer();
 
     const optionButtons = this._parentElement.querySelectorAll(".option-btn");
@@ -96,8 +94,6 @@ class QuizView extends View {
   _startTimer() {
     const timerEl = this._parentElement.querySelector(".timer");
     let timeLeft = this._timerDuration;
-
-    // set initial fill width
     if (this._timerFillEl) this._timerFillEl.style.width = "100%";
 
     clearInterval(this._timerInterval);
@@ -105,14 +101,10 @@ class QuizView extends View {
     this._timerInterval = setInterval(() => {
       timeLeft--;
       timerEl.textContent = timeLeft;
-
-      // update fill width
       if (this._timerFillEl) {
         const pct = Math.max(0, (timeLeft / total) * 100);
         this._timerFillEl.style.width = pct + "%";
       }
-
-      // color states
       timerEl.classList.toggle("warn", timeLeft <= 5 && timeLeft > 2);
       timerEl.classList.toggle("danger", timeLeft <= 2);
 
@@ -131,25 +123,17 @@ class QuizView extends View {
     const timeSpent = this._timerDuration - parseInt(timeLeftText || "0", 10);
     this._totalTime += timeSpent;
 
-    if (isCorrect) {
-      this._score += 100;
-      this._correctAnswers++;
-    } else {
-      this._incorrectAnswers++;
-    }
+    if (isCorrect) this._score += 100;
+    if (isCorrect) this._correctAnswers++;
+    else this._incorrectAnswers++;
 
     const optionButtons = this._parentElement.querySelectorAll(".option-btn");
+    const correctIndex =
+      this._data.questions[this._currentQuestionIndex].correctAnswer;
     optionButtons.forEach((btn) => {
       const index = +btn.dataset.index;
-      const correctIndex =
-        this._data.questions[this._currentQuestionIndex].correctAnswer;
       if (index === correctIndex) btn.classList.add("correct");
-      if (
-        index !== correctIndex &&
-        index === parseInt(btn.dataset.index, 10) &&
-        !isCorrect
-      )
-        btn.classList.add("incorrect");
+      if (index !== correctIndex && !isCorrect) btn.classList.add("incorrect");
       btn.disabled = true;
     });
 
@@ -158,7 +142,6 @@ class QuizView extends View {
         this._currentQuestionIndex++;
         this._renderQuestion();
       } else {
-        // build results object
         const results = {
           score: this._score,
           correctAnswers: this._correctAnswers,
@@ -171,8 +154,6 @@ class QuizView extends View {
           category: this._data.category,
           difficulty: this._data.difficulty,
         };
-
-        // call controller handler (if set)
         if (this._handlerEndQuiz) this._handlerEndQuiz(results);
       }
     }, 900);
@@ -180,6 +161,51 @@ class QuizView extends View {
 
   addHandlerEndQuiz(handler) {
     this._handlerEndQuiz = handler;
+  }
+
+  // === Noi metode pentru controller ===
+  addHandlerSelectCategory(handler) {
+    const container = document.querySelector(".categories .cards");
+    if (!container) return;
+    container.addEventListener("click", (e) => {
+      const card = e.target.closest(".card");
+      if (!card) return;
+      const selected = card.classList.contains("selected");
+      document
+        .querySelectorAll(".categories .card")
+        .forEach((c) => c.classList.remove("selected"));
+      if (!selected) {
+        card.classList.add("selected");
+        handler(card.dataset.categoryId);
+      } else {
+        handler(null);
+      }
+    });
+  }
+
+  addHandlerSelectDifficulty(handler) {
+    const container = document.querySelector(".difficulty .cards");
+    if (!container) return;
+    container.addEventListener("click", (e) => {
+      const card = e.target.closest(".card");
+      if (!card) return;
+      const selected = card.classList.contains("selected");
+      document
+        .querySelectorAll(".difficulty .card")
+        .forEach((c) => c.classList.remove("selected"));
+      if (!selected) {
+        card.classList.add("selected");
+        handler(card.dataset.diff);
+      } else {
+        handler(null);
+      }
+    });
+  }
+
+  addHandlerStart(handler) {
+    const btn = document.querySelector(".start-button button");
+    if (!btn) return;
+    btn.addEventListener("click", handler);
   }
 }
 

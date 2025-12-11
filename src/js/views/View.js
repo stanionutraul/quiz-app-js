@@ -8,7 +8,7 @@ export default class View {
 
     this._data = data;
 
-    const markup = this._generateMarkup();
+    const markup = this._generateMarkup(this._data);
     if (!render) return markup;
     this._clear();
 

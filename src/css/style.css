@@ -238,7 +238,7 @@ body {
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1); */
 }
 .card.selected {
   border: 2px solid #6a11cb;

@@ -25,8 +25,16 @@ export const state = {
     totalIncorrect: 0,
     totalTime: 0,
   },
+  recent: {
+    results: [], // Recent quizzes array
+    page: 1, // current page
+    perPage: 5, // max items per page
+  },
 };
 
+// =====================
+// QUIZ LOADING & FORMATTING
+// =====================
 const createQuizObject = function (data) {
   return {
     id: data.id || `${data.category}-${data.difficulty}-${Date.now()}`,
@@ -45,7 +53,7 @@ export const loadCategories = async function () {
       name: cat.name,
     }));
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw err;
   }
 };
@@ -56,7 +64,6 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
     state.search.difficulty = difficulty;
 
     const url = `${API_QUIZ_QUESTIONS}?amount=${DEFAULT_AMOUNT}&category=${categoryId}&difficulty=${difficulty}&type=multiple`;
-
     const data = await AJAX(url);
 
     const formattedQuestions = data.results.map((q) => {
@@ -73,7 +80,6 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
       };
     });
 
-    // find category name if we have categories loaded
     const catObj = state.search.results.find(
       (c) => String(c.id) === String(categoryId)
     );
@@ -81,20 +87,21 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
 
     state.quiz = createQuizObject({
       id: `${categoryId}-${difficulty}-${Date.now()}`,
-      category: categoryId, // still store id for reference
-      categoryName, // store friendly name
+      category: categoryId, // store id
+      categoryName, // friendly name
       difficulty,
       questions: formattedQuestions,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw err;
   }
 };
 
-// 🔥 salvare rezultate quiz + update stats (folosește categoryName când e disponibil)
+// =====================
+// SAVE QUIZ RESULT
+// =====================
 export const saveQuizResult = function (results) {
-  // results = { score, correctAnswers, incorrectAnswers, totalQuestions, averageTime, totalTime, category }
   if (!state.quiz || !state.quiz.id) return;
 
   const entry = {
@@ -114,40 +121,64 @@ export const saveQuizResult = function (results) {
       results.totalTime || results.averageTime * results.totalQuestions,
   };
 
-  // push history and update aggregates
+  // Push history
   state.history.push(entry);
 
+  // Update aggregates
   state.stats.totalQuizzes++;
   state.stats.totalScore += entry.score;
   state.stats.totalCorrect += entry.correctAnswers;
   state.stats.totalIncorrect += entry.incorrectAnswers;
   state.stats.totalTime += entry.totalTime || 0;
 
+  // Update recent quizzes (reverse order: latest first)
+  state.recent.results = [...state.history].slice(-50).reverse(); // keep last 50 max
+  state.recent.page = 1; // reset pagination
+
   saveToStorage();
 };
 
-// summary pentru dashboard
+// =====================
+// SUMMARY FOR DASHBOARD
+// =====================
 export const getSummary = function () {
+  const stats = state.stats || {};
   return {
-    totalQuizzes: state.stats.totalQuizzes,
-    totalScore: state.stats.totalScore,
-    totalCorrect: state.stats.totalCorrect,
-    totalIncorrect: state.stats.totalIncorrect,
+    totalQuizzes: stats.totalQuizzes || 0,
+    totalScore: stats.totalScore || 0,
+    totalCorrect: stats.totalCorrect || 0,
+    totalIncorrect: stats.totalIncorrect || 0,
     averageAccuracy:
-      state.stats.totalQuizzes > 0
+      stats.totalCorrect + stats.totalIncorrect > 0
         ? Math.round(
-            (state.stats.totalCorrect /
-              (state.stats.totalCorrect + state.stats.totalIncorrect)) *
+            (stats.totalCorrect / (stats.totalCorrect + stats.totalIncorrect)) *
               100
           )
         : 0,
     averageScore:
-      state.stats.totalQuizzes > 0
-        ? Math.round(state.stats.totalScore / state.stats.totalQuizzes)
+      stats.totalQuizzes > 0
+        ? Math.round(stats.totalScore / stats.totalQuizzes)
         : 0,
   };
 };
 
+// =====================
+// RECENT QUIZZES PAGINATION
+// =====================
+export const getRecentPage = function (page = state.recent.page) {
+  state.recent.page = page;
+  const start = (page - 1) * state.recent.perPage;
+  const end = page * state.recent.perPage;
+  return state.recent.results.slice(start, end);
+};
+
+export const getRecentNumPages = function () {
+  return Math.ceil(state.recent.results.length / state.recent.perPage);
+};
+
+// =====================
+// LOCAL STORAGE
+// =====================
 const saveToStorage = function () {
   localStorage.setItem(
     "quizData",
@@ -161,8 +192,11 @@ const loadFromStorage = function () {
     if (!data) return;
     state.history = data.history || [];
     state.stats = data.stats || state.stats;
+
+    // populate recent quizzes
+    state.recent.results = [...state.history].slice(-50).reverse();
   } catch (err) {
-    // invalid json or nothing — ignore
+    // ignore
   }
 };
 
