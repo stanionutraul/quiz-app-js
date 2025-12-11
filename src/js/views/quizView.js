@@ -57,7 +57,7 @@ class QuizView extends View {
             <div class="timer-pulse"></div>
             <div class="timer-number"><span class="timer">${
               this._timerDuration
-            }</span>s</div>
+            }</span></div>
             <div class="timer-bar"><div class="timer-fill" style="width:100%"></div></div>
           </div>
         </div>

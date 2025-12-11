@@ -13,6 +13,20 @@
   }
 }
 
+.results .btn-retry {
+  background: linear-gradient(135deg, #6a11cb, #ff3cac);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(106, 17, 203, 0.35);
+  border-radius: 16px;
+  padding: 12px 22px;
+  font-weight: 700;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.results .btn-retry:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(106, 17, 203, 0.4);
+}
+
 /* Container card */
 .results .results-card {
   background: #fcfcfe;

@@ -124,21 +124,55 @@ body {
   gap: 1.5rem;
 }
 
-.nav-link {
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.nav-link a {
+  position: relative;
   padding: 8px 14px;
   border-radius: 10px;
-  cursor: pointer;
   font-weight: bold;
-  transition: 0.2s;
+  color: #4b5563; /* gri închis */
+  text-decoration: none; /* elimină underline */
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
-.nav-link:hover {
-  background: rgba(0, 0, 0, 0.05);
+/* Hover effect: subtle background + gradient underline animation */
+.nav-link a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0%;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6a11cb, #ff3cac);
+  transition: width 0.3s ease, left 0.3s ease;
 }
 
-.nav-link.active {
-  background: #6a11cb;
-  color: white;
+.nav-link a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Hover background effect */
+.nav-link a:hover {
+  background: rgba(106, 17, 203, 0.08);
+  color: #6a11cb;
+}
+
+/* Active link */
+.nav-link a.active {
+  color: #6a11cb;
+}
+
+.nav-link a.active::after {
+  width: 100%;
+  left: 0;
 }
 
 /* ===========================
@@ -205,6 +239,12 @@ body {
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
+}
+.card.selected {
+  border: 2px solid #6a11cb;
+  box-shadow: 0 12px 35px rgba(106, 17, 203, 0.35);
+  transform: scale(1.03);
+  transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
 }
 
 /* Category/difficulty layout */
@@ -299,27 +339,78 @@ body {
 }
 
 /* ===========================
-   START BUTTON
+   BLOB BUTTON FUNCTIONAL
    =========================== */
 .start-button {
-  text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
-button {
-  padding: 1rem 2.2rem;
-  font-size: 1.15rem;
+.start-button button {
+  padding: 18px 50px;
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
   border: none;
-  border-radius: 14px;
-  background: #6a11cb;
-  color: white;
+  border-radius: 30px;
   cursor: pointer;
-  transition: 0.2s;
+  color: white;
+  background: linear-gradient(45deg, #6a11cb, #ff3cac, #fcd000, #00f5d4);
+  background-size: 300% 300%;
+  box-shadow: 0 8px 25px rgba(106, 17, 203, 0.35);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-button:hover {
-  background: #7e2eff;
-  transform: translateY(-2px);
+/* Gradient animation */
+.start-button button:hover {
+  animation: gradientMove 3s ease infinite;
+  transform: scale(1.08);
+  box-shadow: 0 12px 35px rgba(106, 17, 203, 0.45);
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Optional: subtle shine animation */
+.start-button button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -25%;
+  width: 50%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(25deg);
+  transition: all 0.5s ease;
+}
+
+.start-button button:hover::after {
+  left: 120%;
+  transition: all 0.8s ease;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* ===========================
