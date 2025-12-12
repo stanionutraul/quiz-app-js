@@ -7,7 +7,7 @@ class PaginationView extends View {
 
   addHandlerClick(handler) {
     this._parentElement.addEventListener("click", function (e) {
-      const btn = e.target.closest(".btn--inline");
+      const btn = e.target.closest(".page-btn");
       if (!btn) return;
       const goTo = +btn.dataset.goto;
       handler(goTo);
@@ -15,45 +15,28 @@ class PaginationView extends View {
   }
 
   _generateMarkup() {
+    if (!this._data || !this._data.results) return "";
+
     const curPage = this._data.page;
-    const maxPage = Math.ceil(this._data.results.length / this._data.perPage);
+    const numPages = Math.ceil(this._data.results.length / this._data.perPage);
 
-    // Page 1, others exist
-    if (curPage === 1 && maxPage > 1)
-      return `
-        <button class="btn--inline pagination__btn--next" data-goto="${
-          curPage + 1
-        }">
-          <span>Next</span>
-        </button>
-      `;
+    if (numPages <= 1) return "";
 
-    // Last page
-    if (curPage === maxPage && maxPage > 1)
-      return `
-        <button class="btn--inline pagination__btn--prev" data-goto="${
-          curPage - 1
-        }">
-          <span>Prev</span>
-        </button>
-      `;
+    let pagesToShow = [];
 
-    // Middle pages
-    if (curPage < maxPage)
-      return `
-        <button class="btn--inline pagination__btn--prev" data-goto="${
-          curPage - 1
-        }">
-          <span>Prev</span>
-        </button>
-        <button class="btn--inline pagination__btn--next" data-goto="${
-          curPage + 1
-        }">
-          <span>Next</span>
-        </button>
-      `;
+    // Determinăm ce pagini afișăm
+    if (curPage === 1) pagesToShow = [2];
+    else if (curPage === numPages) pagesToShow = [numPages - 1];
+    else pagesToShow = [curPage - 1, curPage + 1];
 
-    return "";
+    // Creăm markup
+    return pagesToShow
+      .map(
+        (page) => `
+      <button class="page-btn" data-goto="${page}">${page}</button>
+    `
+      )
+      .join("");
   }
 }
 

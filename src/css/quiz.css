@@ -192,3 +192,74 @@
     padding: 0.9rem 1rem;
   }
 }
+
+/* PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  position: relative;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  background: linear-gradient(145deg, #6a11cb, #ff3cac, #fcd000, #00f5d4);
+  background-size: 300% 300%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.35s ease;
+  overflow: hidden;
+}
+
+.page-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -25%;
+  width: 50%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(25deg);
+  transition: all 0.5s ease;
+}
+
+.page-btn:hover::after {
+  left: 120%;
+  transition: all 0.8s ease;
+}
+
+.page-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(106, 17, 203, 0.35);
+  background-position: 100% 50%;
+  animation: gradientMove 3s ease infinite;
+}
+
+/* Curent / activ */
+.page-btn.active {
+  background: linear-gradient(135deg, #ff3cac, #6a11cb, #00f5d4, #fcd000);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(106, 17, 203, 0.5);
+  transform: scale(1.1);
+}
+
+/* Gradient animat */
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

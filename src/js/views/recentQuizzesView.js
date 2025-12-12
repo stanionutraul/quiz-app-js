@@ -23,7 +23,7 @@ class RecentQuizzesView extends View {
         (q) => `
       <div class="recent-item">
         <div class="left">
-          <div class="recent-cat">${q.category}</div>
+          <div class="recent-cat">${q.categoryName}</div>
           <div class="recent-meta">${q.difficulty} • ${new Date(
           q.date
         ).toLocaleString()}</div>
