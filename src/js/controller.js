@@ -5,6 +5,7 @@ import resultsView from "./views/resultsView.js";
 import statsView from "./views/statsView.js";
 import recentQuizzesView from "./views/recentQuizzesView.js";
 import paginationView from "./views/paginationView.js";
+import settingsView from "./views/settingsView.js";
 
 /* ---------- HOME PAGE HANDLERS ---------- */
 function controlSelectCategory(categoryId) {
@@ -63,7 +64,7 @@ async function controlStatsPage() {
   // Build category performance
   const catMap = {};
   model.state.history.forEach((q) => {
-    const cat = q.category;
+    const cat = q.categoryId;
     if (!catMap[cat]) catMap[cat] = { quizzes: 0, correct: 0, total: 0 };
     catMap[cat].quizzes += 1;
     catMap[cat].correct += q.correctAnswers;
@@ -81,9 +82,9 @@ async function controlStatsPage() {
     return { id: catId, name, quizzes: entry.quizzes, accuracy };
   });
 
-  console.log("Summary:", summary);
-  console.log("Categories:", categories);
-  console.log("History:", model.state.history);
+  // console.log("Summary:", summary);
+  // console.log("Categories:", categories);
+  // console.log("History:", model.state.history);
 
   statsView.render({
     totalQuizzes: summary.totalQuizzes || 0,
@@ -95,6 +96,8 @@ async function controlStatsPage() {
     categories: categories || [],
   });
 
+  console.log("RECENT PAGE:", model.getRecentPage(1));
+  console.log("quiz: ", model.state.history);
   // Render first page of recent quizzes
   const recentPage = model.getRecentPage(1);
   recentQuizzesView.render(recentPage);
@@ -121,6 +124,53 @@ function controlRecentPagination(goToPage) {
   });
 }
 
+/* ---------- Clear ---------- */
+function controlClearData() {
+  const confirmed = confirm(
+    "Are you sure you want to clear all quiz history and stats?"
+  );
+
+  if (!confirmed) return;
+
+  model.clearAllData();
+
+  alert("All quiz data has been cleared ✅");
+}
+
+/* ---------- EXPORT DATA(DE FACUT INCA) ---------- */
+function controlExportData() {
+  const data = model.getExportData();
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  a.href = url;
+  a.download = `quiz-data-${timestamp}.json`;
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  alert("Quiz data exported successfully ✅");
+}
+
+// Burger toggle
+function initBurgerMenu() {
+  const burger = document.querySelector(".burger");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (!burger || !navLinks) return;
+
+  burger.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    burger.classList.toggle("open");
+  });
+}
+
 /* ---------- INIT ---------- */
 function init() {
   const page = document.body.dataset.page || "home";
@@ -135,6 +185,13 @@ function init() {
   if (page === "stats") {
     controlStatsPage();
   }
+
+  if (page === "settings") {
+    settingsView.addHandlerClear(controlClearData);
+    settingsView.addHandlerExport(controlExportData);
+  }
+
+  initBurgerMenu();
 }
 
 init();

@@ -40,6 +40,7 @@ const createQuizObject = function (data) {
     id: data.id || `${data.category}-${data.difficulty}-${Date.now()}`,
     title: data.name || data.title || "Quiz",
     category: data.category,
+    categoryName: data.categoryName,
     difficulty: data.difficulty,
     questions: data.questions || [],
   };
@@ -65,7 +66,7 @@ export const loadQuiz = async function (categoryId, difficulty = "easy") {
 
     const url = `${API_QUIZ_QUESTIONS}?amount=${DEFAULT_AMOUNT}&category=${categoryId}&difficulty=${difficulty}&type=multiple`;
     const data = await AJAX(url);
-
+    console.log("data");
     const formattedQuestions = data.results.map((q) => {
       const options = [...q.incorrect_answers, q.correct_answer];
       const shuffled = options
@@ -108,7 +109,7 @@ export const saveQuizResult = function (results) {
     id: state.quiz.id,
     title: state.quiz.title,
     categoryId: state.quiz.category,
-    category: state.quiz.categoryName || state.quiz.category, // friendly name
+    categoryName: state.quiz.categoryName,
     difficulty: state.quiz.difficulty,
     questions: state.quiz.questions,
     date: new Date().toISOString(),
@@ -198,6 +199,62 @@ const loadFromStorage = function () {
   } catch (err) {
     // ignore
   }
+};
+
+export const clearAllData = function () {
+  state.history = [];
+
+  state.stats = {
+    totalQuizzes: 0,
+    totalScore: 0,
+    totalCorrect: 0,
+    totalIncorrect: 0,
+    totalTime: 0,
+  };
+
+  state.recent = {
+    results: [],
+    page: 1,
+    perPage: state.recent.perPage,
+  };
+  localStorage.removeItem("quizData");
+};
+
+export const getExportData = function () {
+  // normalize history (categoryName sigur)
+  const history = state.history.map((h) => ({
+    id: h.id,
+    title: h.title,
+    categoryId: h.categoryId,
+    categoryName: h.categoryName || h.categoryId,
+    difficulty: h.difficulty,
+    score: h.score,
+    correctAnswers: h.correctAnswers,
+    incorrectAnswers: h.incorrectAnswers,
+    totalQuestions: h.totalQuestions,
+    averageTime: h.averageTime,
+    totalTime: h.totalTime,
+    date: h.date,
+  }));
+
+  const stats = { ...state.stats };
+
+  const recent = state.recent.results.map((h) => ({
+    id: h.id,
+    title: h.title,
+    categoryId: h.categoryId,
+    categoryName: h.categoryName,
+    difficulty: h.difficulty,
+    score: h.score,
+    correctAnswers: h.correctAnswers,
+    incorrectAnswers: h.incorrectAnswers,
+    totalQuestions: h.totalQuestions,
+    averageTime: h.averageTime,
+    totalTime: h.totalTime,
+    date: h.date,
+  }));
+
+  return { history, stats, recent };
 };
 
 loadFromStorage();

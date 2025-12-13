@@ -206,12 +206,77 @@ body[data-page="stats"] .no-history {
   font-style: italic;
 }
 
-/* Responsive */
+/* =====================
+   Burger Menu - Stats
+===================== */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 25;
+}
+
+.burger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.burger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile nav-links for burger */
+@media (max-width: 768px) {
+  .burger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px; /* sub navbar */
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    flex-direction: column;
+    width: 200px;
+    padding: 1rem;
+    gap: 1rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -2px 2px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 0 0 8px 8px;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links li a {
+    font-size: 18px;
+  }
+}
+
+/* =====================
+   Responsive Adjustments Stats
+===================== */
 @media (max-width: 900px) {
   body[data-page="stats"] .stats-cards .cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (max-width: 520px) {
   body[data-page="stats"] .stats-cards .cards {
     grid-template-columns: 1fr;
@@ -221,5 +286,17 @@ body[data-page="stats"] .no-history {
   }
   body[data-page="stats"] .recent-item .recent-score {
     font-size: 1.1rem;
+  }
+}
+
+/* Fix scroll / extra white space */
+body {
+  overflow-x: hidden;
+}
+
+/* Optional: reduce padding for very small devices */
+@media (max-width: 400px) {
+  .container {
+    padding: 1rem;
   }
 }
